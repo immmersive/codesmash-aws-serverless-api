@@ -5,13 +5,15 @@
 
 # Intro
 
+## Resources Deployed
+
 Deploys an API on AWS with the following resources:
 
 - API Gateway
 - Lambda
 - DynamoDB
 
-## AWS LAMBDA
+## AWS Lambda
 
 - Language: TypeScript
 - Runtime: NodeJs 18
