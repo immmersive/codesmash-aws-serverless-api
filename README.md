@@ -21,8 +21,8 @@ Deploys an API on AWS with the following resources:
 You can execute the following command to test the API.
 When the API has been deployed you will find the full API url in the terraform output under the output variable **api_gateway_url**.
 
-- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/new?name=${name}
-- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/update?id=${id}&name=${name}
-- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/get?id=${id}
-- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/query?name=${name}
-- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/delete?id=${id}
+- curl https://api-id.execute-api.region.amazonaws.com/api/type/new?name=${name}
+- curl https://api-id.execute-api.region.amazonaws.com/api/type/update?id=${id}&name=${name}
+- curl https://api-id.execute-api.region.amazonaws.com/api/type/get?id=${id}
+- curl https://api-id.execute-api.region.amazonaws.com/api/type/query?name=${name}
+- curl https://api-id.execute-api.region.amazonaws.com/api/type/delete?id=${id}
