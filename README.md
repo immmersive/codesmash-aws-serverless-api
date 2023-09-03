@@ -5,25 +5,24 @@
 
 # Intro
 
-use app/mac/terraform for local development
+Deploys an API on AWS with the following resources:
 
-# Commands
+- API Gateway
+- Lambda
+- DynamoDB
 
-terraform init
-terraform plan
-terraform apply --auto-approve
-terraform workspace list
-terraform workspace new dev
-terraform workspace new uat
-terraform workspace new prod
-terraform workspace select dev
-terraform workspace select uat
-terraform workspace select prod
+## AWS LAMBDA
+
+- Language: TypeScript
+- Runtime: NodeJs 18
 
 # API Commands
 
-- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/new?name=${name}"
-- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/update?id=${id}&name=${name}"
-- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/get?id=${id}"
-- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/query?name=${name}"
-- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/delete?id=${id}"
+You can execute the following command to test the API.
+When the API has been deployed you will find the full API url in the terraform output under the output variable **api_gateway_url**.
+
+- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/new?name=${name}
+- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/update?id=${id}&name=${name}
+- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/get?id=${id}
+- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/query?name=${name}
+- curl https://${apiId}.execute-api.${region}.amazonaws.com/api/type/delete?id=${id}
