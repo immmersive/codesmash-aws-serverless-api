@@ -22,8 +22,8 @@ terraform workspace select prod
 
 # API Commands
 
-"https://4rsb2fy9bd.execute-api.ap-northeast-1.amazonaws.com/api/type/new?name=${name}"
-"https://4rsb2fy9bd.execute-api.ap-northeast-1.amazonaws.com/api/type/update?id=${id}&name=${name}"
-"https://4rsb2fy9bd.execute-api.ap-northeast-1.amazonaws.com/api/type/get?id=${id}"
-"https://4rsb2fy9bd.execute-api.ap-northeast-1.amazonaws.com/api/type/query?name=${name}"
-"https://4rsb2fy9bd.execute-api.ap-northeast-1.amazonaws.com/api/type/delete?id=${id}"
+- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/new?name=${name}"
+- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/update?id=${id}&name=${name}"
+- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/get?id=${id}"
+- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/query?name=${name}"
+- "https://${apiId}.execute-api.ap-northeast-1.amazonaws.com/api/type/delete?id=${id}"
