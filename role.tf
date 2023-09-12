@@ -1,5 +1,5 @@
 resource "aws_iam_role" "role" {
-  name                  = "${var.app_name}_${terraform.workspace}-2"
+  name                  = "${var.app_name}_${terraform.workspace}"
 
   assume_role_policy    = <<EOF
 {
