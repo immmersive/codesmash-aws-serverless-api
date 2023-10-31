@@ -3,7 +3,7 @@ output "dynamodb_id" {
 }
 
 output "aws_lambda_function" {
-    value = aws_lambda_function.lambda.lambda_name
+    value = aws_lambda_function.lambda.function_name
 }
 
 output "api_gateway_url" {
