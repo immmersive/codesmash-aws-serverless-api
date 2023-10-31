@@ -2,8 +2,8 @@ output "dynamodb_id" {
     value = aws_dynamodb_table.dynamodb.id
 }
 
-output "dynamodb_arn" {
-    value = aws_dynamodb_table.dynamodb.arn
+output "aws_lambda_function" {
+    value = aws_lambda_function.lambda.lambda_name
 }
 
 output "api_gateway_url" {
