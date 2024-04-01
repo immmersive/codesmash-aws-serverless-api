@@ -25,6 +25,31 @@ resource "aws_dynamodb_table" "dynamodb" {
         type = "S"
     } 
 
+    attribute {
+        name = "type1"
+        type = "S"
+    } 
+
+    attribute {
+        name = "type2"
+        type = "S"
+    } 
+
+    attribute {
+        name = "type3"
+        type = "S"
+    } 
+
+    attribute {
+        name = "type4"
+        type = "S"
+    } 
+
+    attribute {
+        name = "type5"
+        type = "S"
+    } 
+
     global_secondary_index {
         name            = "type-pk-index"
         hash_key        = "type"
