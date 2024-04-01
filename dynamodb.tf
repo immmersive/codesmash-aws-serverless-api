@@ -33,8 +33,59 @@ resource "aws_dynamodb_table" "dynamodb" {
     }
 
     global_secondary_index {
+        name            = "type-sk-index"
+        hash_key        = "type"
+        range_key       = "sk"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "pk-type-index"
+        hash_key        = "pk"
+        range_key       = "type"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "sk-type-index"
+        hash_key        = "sk"
+        range_key       = "type"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
         name            = "type-index"
         hash_key        = "type"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "type1-index"
+        hash_key        = "type1"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "type2-index"
+        hash_key        = "type2"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "type3-index"
+        hash_key        = "type3"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "type4-index"
+        hash_key        = "type4"
+        projection_type = "ALL"
+    }
+
+    global_secondary_index {
+        name            = "type5-index"
+        hash_key        = "type5"
         projection_type = "ALL"
     }
 }
