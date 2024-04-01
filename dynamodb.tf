@@ -31,4 +31,10 @@ resource "aws_dynamodb_table" "dynamodb" {
         range_key       = "pk"
         projection_type = "ALL"
     }
+
+    global_secondary_index {
+        name            = "type-index"
+        hash_key        = "type"
+        projection_type = "ALL"
+    }
 }
