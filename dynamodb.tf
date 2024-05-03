@@ -10,38 +10,21 @@ resource "aws_dynamodb_table" "dynamodb" {
         enabled = true
     }
 
-    attribute {
-        name = "pk"
-        type = "S"
+    dynamic "attribute" {
+        for_each = var.columns
+        content {
+            name = attribute.value.name
+            type = attribute.value.type
+        }
     }
 
-    attribute {
-        name = "sk"
-        type = "S"
-    }
-
-    attribute {
-        name = "type"
-        type = "S"
+    dynamic "global_secondary_index" {
+        for_each = var.indexes
+        content {
+            name = global_secondary_index.value.name
+            hash_key = global_secondary_index.value.hash_key 
+            range_key = can(global_secondary_index.value.range_key) ? global_secondary_index.value.range_key : null
+            projection_type = "ALL"
+        }
     } 
-
-    global_secondary_index {
-        name            = "pk-type-index"
-        hash_key        = "pk"
-        range_key       = "type"
-        projection_type = "ALL"
-    }
-
-    global_secondary_index {
-        name            = "sk-type-index"
-        hash_key        = "sk"
-        range_key       = "type"
-        projection_type = "ALL"
-    }
-
-    global_secondary_index {
-        name            = "type-index"
-        hash_key        = "type"
-        projection_type = "ALL"
-    }
 }
