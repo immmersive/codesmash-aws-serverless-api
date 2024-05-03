@@ -10,6 +10,14 @@ variable "bucket" {
     default     = ""
 }
 
+variable "partition_key" {
+    default     = ""
+}
+
+variable "sort_key" {
+    default     = ""
+}
+
 variable "columns" {
     type        = list(object({
         name        = string
