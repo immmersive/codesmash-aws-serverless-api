@@ -1,6 +1,6 @@
 resource "aws_dynamodb_table" "dynamodb" {
-    hash_key         = "pk"
-    range_key        = "sk"
+    hash_key         = "${var.partition_key}"
+    range_key        = "${var.sort_key}"
     name             = "${var.app_name}_${terraform.workspace}"
     stream_enabled   = true
     stream_view_type = "NEW_AND_OLD_IMAGES"
