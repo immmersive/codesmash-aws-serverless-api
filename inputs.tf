@@ -15,7 +15,8 @@ variable "partition_key" {
 }
 
 variable "sort_key" {
-    default     = ""
+    type    = string
+    default = null
 }
 
 variable "columns" {
