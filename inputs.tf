@@ -1,11 +1,28 @@
 variable "app_name" {    
-    default = ""
+    default     = ""
 }
  
 variable "region" {
-  default = ""
+    default     = ""
 }
 
 variable "bucket" {
-  default = ""
+    default     = ""
+}
+
+variable "columns" {
+    type        = list(object({
+        name        = string
+        type        = string
+    }))
+    default     = []
+}
+
+variable "indexes" {
+    type        = list(object({
+        name        = string
+        hash_key    = string
+        range_key   = optional(string)
+    }))
+    default     = []
 }
