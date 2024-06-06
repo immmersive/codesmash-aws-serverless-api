@@ -6,7 +6,7 @@ resource "aws_lambda_function" "lambda" {
     memory_size         = "128"
     timeout             = "60"
  
-    source_code_hash    = "${base64sha256("lambda_code.zip")}"
+    source_code_hash    = "${filebase64sha256("lambda_code.zip")}"
 
     runtime             = "nodejs18.x"
   
