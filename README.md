@@ -18,13 +18,15 @@ Deploys an API on AWS with the following resources:
 - Language: TypeScript
 - Runtime: NodeJs 18
 
-# API Commands
+# Description
 
-You can execute the following command to test the API.
-When the API has been deployed you will find the full API url in the terraform output under the output variable **api_gateway_url**.
+This repository will be used as a template for deploying REST APIs with CodeSmash.
+The API Builder feature is then used to modify the API so that users can build custom business logic.
 
-- curl https://api-id.execute-api.region.amazonaws.com/api/type/new?name=${name}
-- curl https://api-id.execute-api.region.amazonaws.com/api/type/update?id=${id}&name=${name}
-- curl https://api-id.execute-api.region.amazonaws.com/api/type/get?id=${id}
-- curl https://api-id.execute-api.region.amazonaws.com/api/type/query?name=${name}
-- curl https://api-id.execute-api.region.amazonaws.com/api/type/delete?id=${id}
+# How to Deploy the REST API?
+
+You can deploy the REST API with CodeSmash [here](https://codesmash.studio/deploy).
+
+# How to Create Business Logic for your REST API?
+
+You can add business logic to your REST API with CodeSmash [here](https://codesmash.studio/builder).
