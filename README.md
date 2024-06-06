@@ -2,6 +2,7 @@
 
 This repository will be used as a template for deploying REST APIs with CodeSmash.
 The API Builder feature is then used to modify the API so that users can build custom business logic.
+Your business logic will be stored as code directly in your repository.
 
 ![](https://github.com/immmersive/codesmash-aws-serverless-api/blob/main/splash.png)
 
@@ -11,7 +12,7 @@ You can deploy the REST API with CodeSmash [here](https://codesmash.studio/deplo
 
 # How to Create Business Logic for your REST API?
 
-You can add business logic to your REST API with CodeSmash [here](https://codesmash.studio/builder).
+You can add business logic to your REST API using the No Code API Builder [here](https://codesmash.studio/builder).
 
 # Module
 
@@ -30,5 +31,3 @@ Deploys an API on AWS with the following resources:
 
 - Language: TypeScript
 - Runtime: NodeJs 18
-
-
