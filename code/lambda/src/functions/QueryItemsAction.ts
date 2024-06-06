@@ -9,19 +9,13 @@ export class QueryItemsAction
         other: { partitionKey: string, sortKey?: string }) : Promise<boolean>
     {  
         var help = new HelpApi();
-        var value1 = source.value1;
-        var value2 = source.value2;
+        var value1 = source.value1; 
         var value3 = source.value3;
         var value4 = source.value4;
         var toSet = null as any;
-
-        console.log('********** in QueryItemsAction **********');
-        console.log(source);
-        console.log('********** in QueryItemsAction **********');
-        
+ 
         if(value1.startsWith('{') && value1.endsWith('}'))
-        { 
-            console.log('in 1');
+        {  
             try 
             {
                 toSet = new Function('data', 'return ' + value1)(data);
@@ -32,24 +26,20 @@ export class QueryItemsAction
             }
         }
         else if(value1.includes('(') && value1.includes(')'))
-        {
-            console.log('in 2');
+        { 
             toSet = new Function('data', 'return data.' + value1)(data);
         }
         else if(help.getObjectValue(data, value1) || help.getObjectValue(data, value1) === 0)
-        {
-            console.log('in 3');
+        { 
             toSet = help.getObjectValue(data, value1);
         }
         else
-        {
-            console.log('in 4');
+        { 
             return false;
         }
  
         try 
-        { 
-            console.log('in try');
+        {  
             var keyConditionExpression = Object
                 .keys(toSet)            
                 .map(x => '#' + x + ' = ' + ':' + x)
@@ -60,11 +50,7 @@ export class QueryItemsAction
 
             Object.keys(toSet).forEach(x => expressionAttributeNames['#' + x] = x);
             Object.keys(toSet).forEach(x => expressionAttributeValues[':' + x] = toSet[x]);
-
-            console.log(keyConditionExpression);
-            console.log(expressionAttributeNames);
-            console.log(expressionAttributeValues);
-
+ 
             var result = await help.query(
                 value3, 
                 keyConditionExpression,
