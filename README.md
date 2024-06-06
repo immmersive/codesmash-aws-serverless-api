@@ -3,6 +3,8 @@
 This repository will be used as a template for deploying REST APIs with CodeSmash.
 The API Builder feature is then used to modify the API so that users can build custom business logic.
 
+![](https://github.com/immmersive/codesmash-aws-serverless-api/blob/main/splash.png)
+
 # How to Deploy the REST API?
 
 You can deploy the REST API with CodeSmash [here](https://codesmash.studio/deploy).
