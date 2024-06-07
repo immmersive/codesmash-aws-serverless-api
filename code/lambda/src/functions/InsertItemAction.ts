@@ -92,15 +92,6 @@ export class InsertItemAction
             return false;
         }
  
-        try 
-        { 
-            await help.putItem(toSet, conditionExpression);
-     
-            return true;
-        } 
-        catch (error) 
-        {
-            return false;
-        } 
+        return await help.putItem(toSet, conditionExpression);
     } 
 }
