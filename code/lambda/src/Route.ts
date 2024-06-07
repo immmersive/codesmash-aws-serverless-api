@@ -32,12 +32,12 @@ export class Route
         this.data['body'] = body;
 
         var help = new HelpApi();
-        var keys = await help.describeTable();
-        var tempSort = keys.filter(x => x.KeyType === 'RANGE'); 
-        var partitionKeyName = keys.filter(x => x.KeyType === 'HASH')[0].AttributeName;
-        var partitionKeyType = keys.filter(x => x.AttributeName === partitionKeyName)[0].KeyType;
+        var table = await help.describeTable();
+        var tempSort = table.KeySchema.filter(x => x.KeyType === 'RANGE'); 
+        var partitionKeyName = table.KeySchema.filter(x => x.KeyType === 'HASH')[0].AttributeName;
+        var partitionKeyType = table.AttributeDefinitions.filter(x => x.AttributeName === partitionKeyName)[0].AttributeType;
         var sortKeyName = tempSort.length > 0 ? tempSort[0].AttributeName : null;
-        var sortKeyType = tempSort.length > 0 ? keys.filter(x => x.AttributeName === tempSort[0].AttributeName)[0].KeyType : undefined;
+        var sortKeyType = tempSort.length > 0 ? table.AttributeDefinitions.filter(x => x.AttributeName === tempSort[0].AttributeName)[0].AttributeType : undefined;
         var funcInvocations = new ApiDefinition().definitions.filter(d => d.route === this.route)[0].funcInvocations;
  
         await help.executeSequentially(this.functions.map((x, i) => () => help.promisify(
