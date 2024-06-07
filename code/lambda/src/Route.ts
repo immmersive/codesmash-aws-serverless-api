@@ -38,7 +38,7 @@ export class Route
         var partitionKeyType = table.AttributeDefinitions.filter(x => x.AttributeName === partitionKeyName)[0].AttributeType;
         var sortKeyName = tempSort.length > 0 ? tempSort[0].AttributeName : null;
         var sortKeyType = tempSort.length > 0 ? table.AttributeDefinitions.filter(x => x.AttributeName === tempSort[0].AttributeName)[0].AttributeType : undefined;
-        var funcInvocations = new ApiDefinition().definitions.filter(d => d.route === this.route)[0].funcInvocations;
+        var funcInvocations = new ApiDefinition().definitions.filter(d => d.route === this.route && d.method === this.method)[0].funcInvocations;
  
         await help.executeSequentially(this.functions.map((x, i) => () => help.promisify(
             x, 
