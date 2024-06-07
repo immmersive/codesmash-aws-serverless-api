@@ -48,25 +48,17 @@ export class GetItemAction
             (key as any)[other.sortKey] = (toSet as any)[other.sortKey];
         }
  
-        try 
-        { 
-            var result = await help.getItem(key);
+        var result = await help.getItem(key);
             
-            if(result) 
-            {
-                help.setObjectValue(data, value3, result);
-            }
-            else
-            { 
-                return false;
-            }
-  
+        if(result != undefined) 
+        {
+            help.setObjectValue(data, value3, result);
+
             return true;
-        } 
-        catch (error) 
+        }
+        else
         { 
-            console.log(error);
             return false;
-        } 
+        }
     }
 }
