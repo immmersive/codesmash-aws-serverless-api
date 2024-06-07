@@ -66,20 +66,11 @@ export class UpdateItemAction
             .filter(x => !keys.includes(x))
             .forEach(x => expressionAttributeValues[':' + x] = toSet[x]);
  
-        try 
-        {
-            await help.updateItem(
-                key,
-                expressionAttributeValues,
-                expressionAttributeNames,
-                updateExpression,
-                conditionExpression);
-  
-            return true;
-        } 
-        catch (error) 
-        { 
-            return false;
-        } 
+        return await help.updateItem(
+            key,
+            expressionAttributeValues,
+            expressionAttributeNames,
+            updateExpression,
+            conditionExpression);
     } 
 }
