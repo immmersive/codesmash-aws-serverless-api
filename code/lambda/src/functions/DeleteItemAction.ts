@@ -53,15 +53,6 @@ export class DeleteItemAction
             key[other.sortKey] = toSet[other.sortKey];
         }
   
-        try 
-        {
-            await help.deleteItem(key, conditionExpression);
-
-            return true;
-        } 
-        catch (error) 
-        {
-            return false;
-        } 
+        return await help.deleteItem(key, conditionExpression);
     }
 }
