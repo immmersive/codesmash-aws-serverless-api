@@ -38,40 +38,32 @@ export class QueryItemsAction
             return false;
         }
  
-        try 
-        {  
-            var keyConditionExpression = Object
-                .keys(toSet)            
-                .map(x => '#' + x + ' = ' + ':' + x)
-                .reduce((x, y) => x + ' and ' + y);
+        var keyConditionExpression = Object
+            .keys(toSet)            
+            .map(x => '#' + x + ' = ' + ':' + x)
+            .reduce((x, y) => x + ' and ' + y);
 
-            var expressionAttributeNames = {} as any;
-            var expressionAttributeValues = {} as any;
+        var expressionAttributeNames = {} as any;
+        var expressionAttributeValues = {} as any;
 
-            Object.keys(toSet).forEach(x => expressionAttributeNames['#' + x] = x);
-            Object.keys(toSet).forEach(x => expressionAttributeValues[':' + x] = toSet[x]);
- 
-            var result = await help.query(
-                value3, 
-                keyConditionExpression,
-                expressionAttributeNames,
-                expressionAttributeValues);
-  
-            if(result) 
-            {
-                help.setObjectValue(data, value4, result);
-            }
-            else
-            { 
-                return false;
-            }
- 
+        Object.keys(toSet).forEach(x => expressionAttributeNames['#' + x] = x);
+        Object.keys(toSet).forEach(x => expressionAttributeValues[':' + x] = toSet[x]);
+
+        var result = await help.query(
+            value3, 
+            keyConditionExpression,
+            expressionAttributeNames,
+            expressionAttributeValues);
+
+        if(result != undefined) 
+        {
+            help.setObjectValue(data, value4, result);
+
             return true;
-        } 
-        catch (error) 
+        }
+        else
         { 
-            console.log(error);
             return false;
-        } 
+        }
     } 
 }
