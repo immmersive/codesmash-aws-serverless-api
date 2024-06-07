@@ -143,19 +143,41 @@ export class HelpApi
         return new RegExp(`^\\/${prefix1}\\/[\\w-]+\\/${prefix2}$`);
     }
 
-    async describeTable() : Promise<{
-        AttributeName: string
-        KeyType: string
-    }[]>
+    async describeTable() : Promise<{ 
+        AttributeDefinitions: 
+        {
+            AttributeName: string
+            AttributeType: string
+        }[]
+        KeySchema: 
+        {
+            AttributeName: string
+            KeyType: string
+        }[]
+        GlobalSecondaryIndexes: 
+        {
+            IndexName: string
+            KeySchema: 
+            {
+                AttributeName: string
+                KeyType: string
+            }[]
+        }[]
+    }>
     {
         var described : 
-        {
+        { 
             Table:
-            {
+            { 
                 AttributeDefinitions: 
                 {
                     AttributeName: string
                     AttributeType: string
+                }[]
+                KeySchema: 
+                {
+                    AttributeName: string
+                    KeyType: string
                 }[]
                 GlobalSecondaryIndexes: 
                 {
@@ -165,11 +187,6 @@ export class HelpApi
                         AttributeName: string
                         KeyType: string
                     }[]
-                }[]
-                KeySchema: 
-                {
-                    AttributeName: string
-                    KeyType: string
                 }[]
             }
         } = (await new DynamoDB(
@@ -182,7 +199,7 @@ export class HelpApi
         })
         .promise()) as any;
 
-        return described.Table.KeySchema;
+        return described.Table;
     }
 
     splitRoute(route: string) : string[]
