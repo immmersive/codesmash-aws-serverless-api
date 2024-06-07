@@ -5,32 +5,52 @@ export class HelpApi
 {
     async getItem<T>(key: any) : Promise<T>
     {
-        return (await new DynamoDB.DocumentClient(
+        try 
         {
-            region: process.env.region
-        })
-        .get(
+            return (await new DynamoDB.DocumentClient(
+            {
+                region: process.env.region
+            })
+            .get(
+            {
+                TableName: process.env.database,
+                Key: key
+            })
+            .promise())
+            .Item as T;
+        } 
+        catch (error) 
         {
-            TableName: process.env.database,
-            Key: key
-        })
-        .promise())
-        .Item as T;
+            console.log(error);
+
+            return undefined;
+        }        
     }
 
-    async putItem<T>(item: any, conditionExpression: string) : Promise<void>
+    async putItem<T>(item: any, conditionExpression: string) : Promise<boolean>
     {
-        await new DynamoDB.DocumentClient(
-        { 
-            region: process.env.region
-        })
-        .put(
+        try 
         {
-            TableName: process.env.database,
-            Item: item,
-            ConditionExpression: conditionExpression
-        })
-        .promise();
+            await new DynamoDB.DocumentClient(
+            { 
+                region: process.env.region
+            })
+            .put(
+            {
+                TableName: process.env.database,
+                Item: item,
+                ConditionExpression: conditionExpression
+            })
+            .promise();
+
+            return true;
+        } 
+        catch (error) 
+        {
+            console.log(error);
+            
+            return false;
+        }  
     }
 
     async updateItem<T>(         
@@ -38,35 +58,55 @@ export class HelpApi
         expressionAttributeValues: any,
         expressionAttributeNames: any,
         updateExpression: string,
-        conditionExpression: string) : Promise<void>
+        conditionExpression: string)  : Promise<boolean>
     {
-        await new DynamoDB.DocumentClient(
+        try 
         {
-            region: process.env.region
-        })
-        .update(
+            await new DynamoDB.DocumentClient(
+            {
+                region: process.env.region
+            })
+            .update(
+            {
+                TableName: process.env.database, 
+                Key: key,
+                ExpressionAttributeNames: expressionAttributeNames,
+                ExpressionAttributeValues: expressionAttributeValues,
+                UpdateExpression: updateExpression,
+                ConditionExpression: conditionExpression
+            })
+            .promise(); 
+
+            return true;
+        } 
+        catch (error) 
         {
-            TableName: process.env.database, 
-            Key: key,
-            ExpressionAttributeNames: expressionAttributeNames,
-            ExpressionAttributeValues: expressionAttributeValues,
-            UpdateExpression: updateExpression,
-            ConditionExpression: conditionExpression
-        })
-        .promise(); 
+            console.log(error);
+
+            return false;
+        } 
     }
 
-    async deleteItem<T>(key: any, conditionExpression: string) : Promise<T>
+    async deleteItem<T>(key: any, conditionExpression: string) : Promise<boolean>
     {
-        return (await new DynamoDB.DocumentClient().delete(
+        try 
         {
-            TableName: process.env.database,            
-            Key: key,            
-            ConditionExpression: conditionExpression
-        })
-        .promise())
-        .$response
-        .data as T; 
+            await new DynamoDB.DocumentClient().delete(
+            {
+                TableName: process.env.database,            
+                Key: key,            
+                ConditionExpression: conditionExpression
+            })
+            .promise();   
+
+            return true;
+        } 
+        catch (error) 
+        {
+            console.log(error);
+            
+            return false;
+        }        
     }
 
     async query<T>(
@@ -75,16 +115,25 @@ export class HelpApi
         expressionAttributeNames: any,
         expressionAttributeValues: any) : Promise<T>
     {
-        return (await new DynamoDB.DocumentClient().query(
+        try 
         {
-            TableName : process.env.database,
-            IndexName: indexName,
-            KeyConditionExpression: keyConditionExpression,
-            ExpressionAttributeValues: expressionAttributeValues,
-            ExpressionAttributeNames: expressionAttributeNames
-        })
-        .promise())
-        .Items as T;
+            return (await new DynamoDB.DocumentClient().query(
+            {
+                TableName : process.env.database,
+                IndexName: indexName,
+                KeyConditionExpression: keyConditionExpression,
+                ExpressionAttributeValues: expressionAttributeValues,
+                ExpressionAttributeNames: expressionAttributeNames
+            })
+            .promise())
+            .Items as T;    
+        } 
+        catch (error) 
+        {
+            console.log(error);
+
+            return undefined;
+        }
     }
 
     getUuid(): string
@@ -211,23 +260,31 @@ export class HelpApi
         return temp.split('/').filter(x => x !== '');
     }
 
-    async executeSequentially(functions: (() => Promise<string>)[]) 
-    {
-        return functions.reduce((promise, func: any) => promise.then(() => func()), Promise.resolve());
+    async executeSequentially(functions: (() => Promise<boolean>)[]) : Promise<boolean>
+    { 
+        return functions.reduce((promiseChain, func) => 
+        {
+            return promiseChain.then(result => 
+            {
+                if (result === false) return false; 
+            
+                return func();
+            });
+        }, Promise.resolve(true));
     }   
 
-    async promisify(x: any, data: any, source: any, other: any) : Promise<string>
+    async promisify(x: any, data: any, source: any, other: any) : Promise<boolean>
     {    
-        return await new Promise(async (resolve, reject) => 
+        return new Promise(async (resolve, reject) => 
         { 
-            var result = await x.run(
-                data, 
-                source,
-                other);      
-                  
-            result === true ? resolve(x) : reject();            
-                           
-            return '';
+            try 
+            { 
+                resolve(await x.run(data, source, other));                
+            } 
+            catch (error) 
+            {
+                reject(error); 
+            }
         });
     }
 
