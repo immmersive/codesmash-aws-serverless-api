@@ -26,7 +26,7 @@ export class HelpApi
         })
         .put(
         {
-            TableName: process.env.tableName,
+            TableName: process.env.database,
             Item: item,
             ConditionExpression: conditionExpression
         })
