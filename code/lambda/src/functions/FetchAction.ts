@@ -5,15 +5,18 @@ export class FetchAction
     id = 'fetch'
     
     async run(data: any, 
-        source: { value1: any, value2: any , value3: any },
+        source: { value1: any, value2: any , value3: any, value4: any, value5: any },
         other: { partitionKey: string, sortKey?: string }) : Promise<boolean>
     {  
         var help = new HelpApi();
+        var value5 = source.value5;
+        var value4 = source.value4;
         var value3 = source.value3;
         var value2 = source.value2;
         var value1 = source.value1;
         var toUrl = null as any;
         var toHeaders = null as any;
+        var toBody = null as any;
  
         if((value1.startsWith('"') && value1.endsWith('"')) || (value1.startsWith("'") && value1.endsWith("'"))) 
         { 
@@ -82,19 +85,45 @@ export class FetchAction
         {
             toHeaders = undefined;
         }
+
+        if(value3 && value3.startsWith('{') && value3.endsWith('}'))
+        { 
+            try 
+            {
+                toBody = new Function('data', 'return ' + value3)(data);
+            } 
+            catch (error) 
+            {
+                toBody = undefined;
+            }
+        }
+        else if(value3 && value3.includes('(') && value3.includes(')'))
+        {
+            toBody = new Function('data', 'return data.' + value3)(data);
+        }
+        else if(value3 && (help.getObjectValue(data, value3) || help.getObjectValue(data, value3) === 0))
+        {
+            toBody = help.getObjectValue(data, value3);
+        }
+        else
+        {
+            toBody = undefined;
+        }
    
         try 
         { 
             const response = await fetch(toUrl,
-                toHeaders ? {
-                    headers: toHeaders
-                } : undefined);
+            {
+                method: value4,
+                headers: toHeaders ? toHeaders : undefined,
+                body: toBody ? toBody : undefined
+            });
 
             var result = await response.json();
  
             if(result) 
             {
-                help.setObjectValue(data, value3, result);
+                help.setObjectValue(data, value5, result);
             }
             else
             { 
