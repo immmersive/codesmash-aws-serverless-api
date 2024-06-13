@@ -14,27 +14,10 @@ export class QueryItemsAction
         var value4 = source.value4;
         var toSet = null as any;
  
-        if(value1.startsWith('{') && value1.endsWith('}'))
-        {  
-            try 
-            {
-                toSet = new Function('data', 'return ' + value1)(data);
-            } 
-            catch (error) 
-            {
-                toSet = undefined;
-            }
-        }
-        else if(value1.includes('(') && value1.includes(')'))
-        { 
-            toSet = new Function('data', 'return data.' + value1)(data);
-        }
-        else if(help.getObjectValue(data, value1) || help.getObjectValue(data, value1) === 0)
-        { 
-            toSet = help.getObjectValue(data, value1);
-        }
-        else
-        { 
+        toSet = new Function('data', 'return ' + help.prefixVars(data, value1))(data);
+
+        if(!toSet)
+        {
             return false;
         }
  
