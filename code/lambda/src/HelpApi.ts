@@ -312,4 +312,16 @@ export class HelpApi
         }, 
         new Array<K>());
     }
+
+    prefixVars(data: any, command: string)
+    { 
+        return command.replace(/\b([a-zA-Z_]\w*)\b/g, (match) => 
+        { 
+            if (((token) => /\b\w+\s*\(/.test(token))(match)) return match;
+            
+            if (data.hasOwnProperty(match)) return `data.${match}`;
+            
+            return match;
+        });
+    } 
 }
