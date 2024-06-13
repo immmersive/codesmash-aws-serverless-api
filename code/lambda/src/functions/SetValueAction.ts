@@ -16,9 +16,7 @@ export class SetValueAction
             data, 
             value2, 
             new Function('data', 'return ' + help.prefixVars(data, value1))(data));
- 
-        help.setObjectValue(data, value2, toSet);
- 
+  
         return true;
     }
 }
