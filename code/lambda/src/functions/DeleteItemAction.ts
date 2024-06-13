@@ -12,29 +12,7 @@ export class DeleteItemAction
         var value1 = source.value1; 
         var toSet = null;
 
-        if(value1.startsWith('{') && value1.endsWith('}'))
-        { 
-            try 
-            {
-                toSet = new Function('data', 'return ' + value1)(data);
-            } 
-            catch (error) 
-            {
-                toSet = undefined;
-            }
-        }
-        else if(value1.includes('(') && value1.includes(')'))
-        {
-            toSet = new Function('data', 'return data.' + value1)(data);
-        }
-        else if(help.getObjectValue(data, value1) || help.getObjectValue(data, value1) === 0)
-        {
-            toSet = help.getObjectValue(data, value1);
-        }
-        else
-        {
-            return false;
-        }
+        toSet = new Function('data', 'return ' + help.prefixVars(data, value1))(data);
          
         if(!toSet)
         {
