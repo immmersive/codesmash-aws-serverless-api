@@ -315,12 +315,30 @@ export class HelpApi
 
     prefixVars(data: any, command: string)
     { 
-        return command.replace(/\b([a-zA-Z_]\w*)\b/g, (match) => 
+        command = command.replace(/\.\.\.(\w+)/g, (match, p1) => 
+        {
+            if (data.hasOwnProperty(p1)) return `...data.${p1}`;
+           
+            return match;
+        });
+     
+        return command.replace(/\b([a-zA-Z_]\w*)\b/g, (match, p1, offset, string) => 
         { 
             if (((token) => /\b\w+\s*\(/.test(token))(match)) return match;
-            
-            if (data.hasOwnProperty(match)) return `data.${match}`;
-            
+     
+            const precedingChar = string[offset - 1];
+            const followingChar = string[offset + match.length];
+    
+            const isWithinQuotes = 
+                (precedingChar === '"' || precedingChar === "'" || precedingChar === '`') && 
+                (followingChar === '"' || followingChar === "'" || followingChar === '`');
+    
+            const isKeyInObject = 
+                precedingChar === ':' && 
+                (followingChar === ',' || followingChar === '}' || followingChar === undefined);
+     
+            if (data.hasOwnProperty(match) && !isWithinQuotes && !(precedingChar === '.' || isKeyInObject)) return `data.${match}`;
+           
             return match;
         });
     } 
