@@ -16,6 +16,7 @@ import { QueryItemsAction } from "./functions/QueryItemsAction"
 import { SetValueAction } from "./functions/SetValueAction"
 import { UpdateItemAction } from "./functions/UpdateItemAction"
 import { ReturnAction } from "./functions/ReturnAction"
+import { JoinAction } from "./functions/JoinAction"
  
 export class Repo
 {  
@@ -64,7 +65,8 @@ export class Repo
             new QueryItemsAction(),
             new SetValueAction(),
             new UpdateItemAction(),
-            new ReturnAction()
+            new ReturnAction(),
+            new JoinAction()
         ].filter(x => x.id === funcId)[0];
     }
 }
