@@ -342,4 +342,44 @@ export class HelpApi
             return match;
         });
     } 
+
+      joinArrays(
+        array1: any[],
+        array2: any[],
+        joinType: 'INNER' | 'LEFT' | 'RIGHT' | 'OUTER' = 'INNER',
+        matchFn: (item1: any, item2: any) => boolean, 
+        mapFn: (item1: any, item2: any | undefined) => any): any[] 
+        {
+            let joinedArray: any[] = [];
+    
+            if (joinType === 'INNER') 
+            {
+                joinedArray = array1.map(i1 => 
+                {
+                    const i2 = array2.find(item2 => matchFn(i1, item2));
+                    return i2 ? mapFn(i1, i2) : undefined;
+                })
+                .filter(i => i !== undefined);
+            } 
+            else if (joinType === 'LEFT') 
+            {
+                joinedArray = array1.map(i1 => mapFn(i1, array2.find(i2 => matchFn(i1, i2))));
+            } 
+            else if (joinType === 'RIGHT') 
+            {
+                joinedArray = array2.map(i2 => mapFn(array1.find(i1 => matchFn(i1, i2)) || {}, i2));
+            } 
+            else if (joinType === 'OUTER') 
+            { 
+                joinedArray = [
+                    ...array1
+                        .map(i1 => mapFn(i1, array2.find(i2 => matchFn(i1, i2)))), 
+                    ...array2
+                        .filter(i2 => !array1.some(i1 => matchFn(i1, i2)))
+                        .map(i2 => mapFn({}, i2))
+                ];
+            }
+    
+            return joinedArray;
+        }
 }
