@@ -47,8 +47,7 @@ export class Repo
         id: string,
         run(data: any, source: any, other: any): Promise<boolean>
     }
-    { 
-        
+    {  
         return [
             new ContainsAction(),
             new DeleteItemAction(),
