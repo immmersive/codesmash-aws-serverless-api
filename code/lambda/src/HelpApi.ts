@@ -343,7 +343,7 @@ export class HelpApi
         });
     } 
 
-      joinArrays(
+    joinArrays(
         array1: any[],
         array2: any[],
         joinType: 'INNER' | 'LEFT' | 'RIGHT' | 'OUTER' = 'INNER',
