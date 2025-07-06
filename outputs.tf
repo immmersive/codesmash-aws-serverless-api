@@ -7,5 +7,5 @@ output "aws_lambda_function" {
 }
 
 output "api_gateway_url" {
-    value = aws_api_gateway_deployment.api_gateway.invoke_url
+  value = "https://${aws_api_gateway_rest_api.api_gateway.id}.execute-api.${var.region}.amazonaws.com/${aws_api_gateway_stage.api_stage.stage_name}"
 }
