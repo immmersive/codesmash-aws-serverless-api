@@ -49,8 +49,13 @@ resource "aws_api_gateway_deployment" "api_gateway" {
     aws_api_gateway_integration.lambda_root,
   ]
 
-  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-  stage_name  = "api"
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id 
+}
+
+resource "aws_api_gateway_stage" "api_stage" {
+  stage_name    = "api"
+  rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
+  deployment_id = aws_api_gateway_deployment.api_gateway.id
 }
 
 resource "aws_lambda_permission" "permission" {
@@ -59,5 +64,5 @@ resource "aws_lambda_permission" "permission" {
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
  
-  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/${aws_api_gateway_stage.api_stage.stage_name}/*" 
 }
